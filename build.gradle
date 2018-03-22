@@ -29,5 +29,7 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-validation')
 	compile('org.springframework.boot:spring-boot-starter-web')
 	runtime('mysql:mysql-connector-java')
+	// https://mvnrepository.com/artifact/org.projectlombok/lombok
+	compileOnly('org.projectlombok:lombok:1.16.20')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }

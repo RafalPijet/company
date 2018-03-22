@@ -10,19 +10,24 @@ public class Position {
     private String name;
     private Employe employe;
 
+    public Position() {
+    }
     public Position(String name) {
         this.name = name;
     }
-    public Position() {
+
+    public Position(Long id, String name) {
+        this.id = id;
+        this.name = name;
     }
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @NotNull
+    @GeneratedValue
+    //@NotNull
     @Column(name = "ID", unique = true)
     public Long getId() {
         return id;
     }
-    public void setId(Long id) {
+    private void setId(Long id) {
         this.id = id;
     }
     @NotNull

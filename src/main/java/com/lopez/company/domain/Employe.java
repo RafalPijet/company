@@ -2,6 +2,7 @@ package com.lopez.company.domain;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,22 +12,30 @@ public class Employe {
     private Long id;
     private String firstName;
     private String lastName;
-    private Long pesel;
+    private BigDecimal pesel;
     private String sex;
     private List<Position> position = new ArrayList<>();
     private List<Remuneration> remuneration = new ArrayList<>();
 
-    public Employe(String firstName, String lastName, Long pesel, String sex) {
+    public Employe() {
+    }
+    public Employe(String firstName, String lastName, BigDecimal pesel, String sex) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.pesel = pesel;
         this.sex = sex;
     }
-    public Employe() {
+
+    public Employe(Long id, String firstName, String lastName, BigDecimal pesel, String sex) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.pesel = pesel;
+        this.sex = sex;
     }
     @Id
-    @NotNull
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
+    //@NotNull
     @Column(name = "ID", unique = true)
     public Long getId() {
         return id;
@@ -39,7 +48,7 @@ public class Employe {
     public String getFirstName() {
         return firstName;
     }
-    public void setFirstName(String firstName) {
+    private void setFirstName(String firstName) {
         this.firstName = firstName;
     }
     @NotNull
@@ -47,22 +56,22 @@ public class Employe {
     public String getLastName() {
         return lastName;
     }
-    public void setLastName(String lastName) {
+    private void setLastName(String lastName) {
         this.lastName = lastName;
     }
     @NotNull
     @Column(name = "PESEL", unique = true)
-    public Long getPesel() {
+    public BigDecimal getPesel() {
         return pesel;
     }
-    public void setPesel(Long pesel) {
+    private void setPesel(BigDecimal pesel) {
         this.pesel = pesel;
     }
     @Column(name = "SEX")
     public String getSex() {
         return sex;
     }
-    public void setSex(String sex) {
+    private void setSex(String sex) {
         this.sex = sex;
     }
     @OneToMany(targetEntity = Position.class,
@@ -78,11 +87,12 @@ public class Employe {
     @OneToMany(targetEntity = Remuneration.class,
                 mappedBy = "employe",
                 cascade = CascadeType.ALL,
-                fetch = FetchType.EAGER)
+                fetch = FetchType.LAZY)
     public List<Remuneration> getRemuneration() {
         return remuneration;
     }
     public void setRemuneration(List<Remuneration> remuneration) {
         this.remuneration = remuneration;
     }
+
 }

@@ -14,17 +14,25 @@ public class Remuneration {
     private Double value;
     private Employe employe;
 
+    public Remuneration() {
+    }
     public Remuneration(Date date, String name, String description, Double value) {
         this.date = date;
         this.name = name;
         this.description = description;
         this.value = value;
     }
-    public Remuneration() {
+
+    public Remuneration(Long id, Date date, String name, String description, Double value) {
+        this.id = id;
+        this.date = date;
+        this.name = name;
+        this.description = description;
+        this.value = value;
     }
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @NotNull
+    @GeneratedValue
+    //@NotNull
     @Column(name = "ID", unique = true)
     public Long getId() {
         return id;
