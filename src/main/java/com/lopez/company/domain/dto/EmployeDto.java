@@ -1,7 +1,5 @@
 package com.lopez.company.domain.dto;
 
-import com.lopez.company.domain.Position;
-import com.lopez.company.domain.Remuneration;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,8 +19,8 @@ public class EmployeDto {
     private String lastName;
     private BigDecimal pesel;
     private String sex;
-    private List<Position> position = new ArrayList<>();
-    private List<Remuneration> remuneration = new ArrayList<>();
+    private List<PositionDto> positionDtoList = new ArrayList<>();
+    private List<RemunerationDto> remunerationDtoList = new ArrayList<>();
 
     public EmployeDto(String firstName, String lastName, BigDecimal pesel, String sex) {
         this.firstName = firstName;
@@ -36,33 +34,5 @@ public class EmployeDto {
         this.lastName = lastName;
         this.pesel = pesel;
         this.sex = sex;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public BigDecimal getPesel() {
-        return pesel;
-    }
-
-    public String getSex() {
-        return sex;
-    }
-
-    public List<Position> getPosition() {
-        return position;
-    }
-
-    public List<Remuneration> getRemuneration() {
-        return remuneration;
     }
 }

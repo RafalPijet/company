@@ -4,10 +4,21 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
+@NamedQueries({
+        @NamedQuery(
+                name = "Remuneration.getAllRecords",
+                query = "FROM Remuneration"
+        ),
+        @NamedQuery(
+                name = "Remuneration.getEmployeId",
+                query = "FROM Remuneration WHERE employees_id = :EMPLOYEES_ID"
+        )
+})
+
 @Entity
 @Table(name = "REMUNERATION")
 public class Remuneration {
-    private Long id;
+    private long id;
     private Date date;
     private String name;
     private String description;
@@ -23,7 +34,7 @@ public class Remuneration {
         this.value = value;
     }
 
-    public Remuneration(Long id, Date date, String name, String description, Double value) {
+    public Remuneration(long id, Date date, String name, String description, Double value) {
         this.id = id;
         this.date = date;
         this.name = name;
@@ -32,12 +43,12 @@ public class Remuneration {
     }
     @Id
     @GeneratedValue
-    //@NotNull
+    @NotNull
     @Column(name = "ID", unique = true)
-    public Long getId() {
+    public long getId() {
         return id;
     }
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
     @NotNull

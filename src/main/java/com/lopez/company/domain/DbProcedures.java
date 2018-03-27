@@ -3,6 +3,9 @@ package com.lopez.company.domain;
 import com.lopez.company.domain.dto.EmployeDto;
 import com.lopez.company.domain.dto.PositionDto;
 import com.lopez.company.domain.dto.RemunerationDto;
+import com.lopez.company.exceptions.EmployeNotFoundException;
+import com.lopez.company.exceptions.PositionNotFoundException;
+import com.lopez.company.exceptions.RemunerationNotFoundException;
 import com.lopez.company.mapper.EmployeMapper;
 import com.lopez.company.mapper.PositionMapper;
 import com.lopez.company.mapper.RemunerationMapper;
@@ -12,10 +15,8 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class DbProcedures {
@@ -28,6 +29,8 @@ public class DbProcedures {
     PositionMapper positionMapper;
     @Autowired
     RemunerationMapper remunerationMapper;
+    @Autowired
+    DbService dbService;
 
     public void prepareEmployees() {
         employeesDtoList.add(new EmployeDto("Michael", "Jackson", new BigDecimal("52070812359"), "MALE"));
@@ -104,6 +107,52 @@ public class DbProcedures {
             employeResult.getRemuneration().add(randomRemuneration);
         }
         return employeResult;
+    }
+
+    public List<EmployeDto> getAllEmployees() {
+        List<EmployeDto> resultList = new ArrayList<>();
+        List<Employe> listEmployeesFromDb = dbService.getAllEmployees();
+        List<Position> listPositionsFromDb = dbService.getAllPositions();
+        List<Remuneration> listRemunerationsFromDb = dbService.getAllRemunerations();
+        EmployeDto employeDtoResult = null;
+        PositionDto positionDtoResult = null;
+        RemunerationDto remunerationDtoResult = null;
+        long idResult;
+        long idPositionResult;
+        long idRemunerationResult;
+        for (Employe employe : listEmployeesFromDb) {
+            employeDtoResult = employeMapper.mapToEmployeDto(employe);
+            idResult = employeDtoResult.getId();
+            for (Position position : listPositionsFromDb) {
+                positionDtoResult = positionMapper.mapToPositionDto(position);
+                idPositionResult = position.getEmploye().getId();
+                if (idResult == idPositionResult) {
+                    employeDtoResult.getPositionDtoList().add(positionDtoResult);
+                }
+            }
+            for (Remuneration remuneration : listRemunerationsFromDb) {
+                remunerationDtoResult = remunerationMapper.mapToRemuneartionDto(remuneration);
+                idRemunerationResult = remuneration.getEmploye().getId();
+                if (idResult == idRemunerationResult) {
+                    employeDtoResult.getRemunerationDtoList().add(remunerationDtoResult);
+                }
+            }
+            resultList.add(employeDtoResult);
+        }
+        return resultList;
+    }
+
+    public EmployeDto getEmploye(Long id) throws EmployeNotFoundException, PositionNotFoundException, RemunerationNotFoundException {
+        List<PositionDto> positionDtoList = dbService.getPosition(id).stream()
+                .map(p -> positionMapper.mapToPositionDto(p))
+                .collect(Collectors.toList());
+        List<RemunerationDto> remunerationDtoList = dbService.getRemuneration(id).stream()
+                .map(r -> remunerationMapper.mapToRemuneartionDto(r))
+                .collect(Collectors.toList());
+        EmployeDto resultEmployeDto = employeMapper.mapToEmployeDto(dbService.getEmploye(id).orElseThrow(EmployeNotFoundException::new));
+        resultEmployeDto.setPositionDtoList(positionDtoList);
+        resultEmployeDto.setRemunerationDtoList(remunerationDtoList);
+        return resultEmployeDto;
     }
 
 }

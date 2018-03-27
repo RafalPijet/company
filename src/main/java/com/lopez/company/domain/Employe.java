@@ -6,10 +6,20 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+@NamedQueries({
+        @NamedQuery(
+                name = "Employe.getSexMale",
+                query = "FROM Employe WHERE sex = 'MALE'"
+        ),
+        @NamedQuery(
+                name = "Employe.getSexFemale",
+                query = "FROM Employe WHERE sex = 'FEMALE'"
+        )
+})
 @Entity
 @Table(name = "EMPLOYEES")
 public class Employe {
-    private Long id;
+    private long id;
     private String firstName;
     private String lastName;
     private BigDecimal pesel;
@@ -26,7 +36,7 @@ public class Employe {
         this.sex = sex;
     }
 
-    public Employe(Long id, String firstName, String lastName, BigDecimal pesel, String sex) {
+    public Employe(long id, String firstName, String lastName, BigDecimal pesel, String sex) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -35,12 +45,12 @@ public class Employe {
     }
     @Id
     @GeneratedValue
-    //@NotNull
+    @NotNull
     @Column(name = "ID", unique = true)
-    public Long getId() {
+    public long getId() {
         return id;
     }
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
     @NotNull

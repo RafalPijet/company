@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 public class PositionMapper {
 
     public Position mapToPosition(PositionDto positionDto) {
-        return new Position(positionDto.getName());
+        return new Position(positionDto.getId(), positionDto.getName());
     }
     public PositionDto mapToPositionDto(Position position) {
         return new PositionDto(position.getId(), position.getName());

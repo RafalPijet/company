@@ -3,10 +3,21 @@ package com.lopez.company.domain;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+@NamedQueries({
+        @NamedQuery(
+                name = "Position.getAllRecords",
+                query = "FROM Position"
+        ),
+        @NamedQuery(
+                name = "Position.getEmployeId",
+                query = "FROM Position WHERE employees_id = :EMPLOYEES_ID"
+        )
+})
+
 @Entity
 @Table(name = "POSITION")
 public class Position {
-    private Long id;
+    private long id;
     private String name;
     private Employe employe;
 
@@ -15,19 +26,18 @@ public class Position {
     public Position(String name) {
         this.name = name;
     }
-
-    public Position(Long id, String name) {
+    public Position(long id, String name) {
         this.id = id;
         this.name = name;
     }
     @Id
     @GeneratedValue
-    //@NotNull
+    @NotNull
     @Column(name = "ID", unique = true)
-    public Long getId() {
+    public long getId() {
         return id;
     }
-    private void setId(Long id) {
+    private void setId(long id) {
         this.id = id;
     }
     @NotNull

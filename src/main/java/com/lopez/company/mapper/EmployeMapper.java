@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 public class EmployeMapper {
 
     public Employe mapToEmploye(final EmployeDto employeDto) {
-        return new Employe(employeDto.getFirstName(), employeDto.getLastName(), employeDto.getPesel(), employeDto.getSex());
+        return new Employe(employeDto.getId(), employeDto.getFirstName(), employeDto.getLastName(), employeDto.getPesel(), employeDto.getSex());
     }
     public EmployeDto mapToEmployeDto(final Employe employe) {
         return new EmployeDto(employe.getId(), employe.getFirstName(), employe.getLastName(), employe.getPesel(), employe.getSex());
