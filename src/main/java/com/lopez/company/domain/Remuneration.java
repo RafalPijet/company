@@ -12,7 +12,16 @@ import java.util.Date;
         @NamedQuery(
                 name = "Remuneration.getEmployeId",
                 query = "FROM Remuneration WHERE employees_id = :EMPLOYEES_ID"
+        ),
+        @NamedQuery(
+                name = "Remuneration.getRemunerationWithLowAndHighValue",
+                query = "FROM Remuneration WHERE (value > :LOW and value < :HIGH)"
+        ),
+        @NamedQuery(
+                name = "Remuneration.getRemunerationFromToDate",
+                query = "FROM Remuneration WHERE (date > :FROM and date < :TO)"
         )
+
 })
 
 @Entity

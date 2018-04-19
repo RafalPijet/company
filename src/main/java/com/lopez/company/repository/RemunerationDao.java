@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -21,4 +22,8 @@ public interface RemunerationDao extends CrudRepository<Remuneration, Long> {
     List<Remuneration> getAllRecords();
     @Query
     List<Remuneration> getEmployeId(@Param("EMPLOYEES_ID") Long employees_id);
+    @Query
+    List<Remuneration> getRemunerationWithLowAndHighValue(@Param("LOW") double low, @Param("HIGH") double high);
+    @Query
+    List<Remuneration> getRemunerationFromToDate(@Param("FROM") Date dateFrom, @Param("TO") Date dateTo);
 }

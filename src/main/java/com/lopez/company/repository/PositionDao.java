@@ -22,4 +22,6 @@ public interface PositionDao extends CrudRepository<Position, Long> {
     List<Position> getAllRecords();
     @Query
     List<Position> getEmployeId(@Param("EMPLOYEES_ID") Long employees_id);
+    @Query
+    List<Position> getPositionName(@Param("NAME") String name);
 }

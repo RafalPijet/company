@@ -11,6 +11,10 @@ import javax.validation.constraints.NotNull;
         @NamedQuery(
                 name = "Position.getEmployeId",
                 query = "FROM Position WHERE employees_id = :EMPLOYEES_ID"
+        ),
+        @NamedQuery(
+                name = "Position.getPositionName",
+                query = "FROM Position WHERE name = :NAME"
         )
 })
 

@@ -4,11 +4,14 @@ import com.lopez.company.exceptions.EmployeNotFoundException;
 import com.lopez.company.exceptions.PositionNotFoundException;
 import com.lopez.company.exceptions.RemunerationNotFoundException;
 import com.lopez.company.repository.EmployeDao;
+import com.lopez.company.repository.InfoDao;
 import com.lopez.company.repository.PositionDao;
 import com.lopez.company.repository.RemunerationDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +23,25 @@ public class DbService {
     private PositionDao positionDao;
     @Autowired
     private RemunerationDao remunerationDao;
+    @Autowired
+    private InfoDao infoDao;
+
+    public List<Info> getAllRecordsFromInfo() {
+        List<Info> result = infoDao.findAll();
+        System.out.println("???????????????????????????????????????/");
+        result.stream()
+                .forEach(info -> System.out.println(info.getFirstname() + " " + info.getLastname() + " -- " + info.getPname() + " -- " + info.getValue() + " -- " + info.getName()));
+        return infoDao.findAll();
+    }
+
+    public List<Info> getRecordsById(long id) {
+        List<Info> result = infoDao.findById(id);
+        System.out.println("???????????????????????????????????????/");
+        result.stream()
+                .forEach(info -> System.out.println(info.getFirstname() + " " + info.getLastname() + " -- " + info.getPname() + " -- " + info.getValue() + " -- " + info.getName()));
+        return result;
+    }
+
 
     public List<Employe> getAllEmployees() {
         return employeDao.findAll();
@@ -37,6 +59,9 @@ public class DbService {
             throw new EmployeNotFoundException();
         }
     }
+    public Employe getOneEmploye(Long pesel) {
+        return employeDao.findEmployeByPesel(new BigDecimal(pesel.toString()));
+    }
     public void deleteAllRecords() {
         employeDao.deleteAll();
     }
@@ -48,6 +73,9 @@ public class DbService {
     }
     public List<Employe> getOnlyFemaleEmployees() {
         return employeDao.getSexFemale();
+    }
+    public List<Employe> getEmployeWithFullName(String firstname, String lastname) {
+        return employeDao.getEmployeWithFullName(firstname, lastname);
     }
     public List<Position> getAllPositions() {
         return positionDao.getAllRecords();
@@ -61,6 +89,9 @@ public class DbService {
     }
     public long quantityOfPositions() {
         return positionDao.count();
+    }
+    public List<Position> getPositionWithSelectedName(String name) {
+        return positionDao.getPositionName(name);
     }
     public Position savePosition(final Position position) {
         return positionDao.save(position);
@@ -94,5 +125,11 @@ public class DbService {
         } else {
             throw new RemunerationNotFoundException();
         }
+    }
+    public List<Remuneration> getRemunerationWithLowAndHighValue(double low, double high) {
+        return remunerationDao.getRemunerationWithLowAndHighValue(low, high);
+    }
+    public List<Remuneration> getRemunerationFromToDate(Date dateFrom, Date dateTo) {
+        return remunerationDao.getRemunerationFromToDate(dateFrom, dateTo);
     }
 }

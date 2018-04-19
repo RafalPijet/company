@@ -14,6 +14,10 @@ import java.util.List;
         @NamedQuery(
                 name = "Employe.getSexFemale",
                 query = "FROM Employe WHERE sex = 'FEMALE'"
+        ),
+        @NamedQuery(
+                name = "Employe.getEmployeWithFullName",
+                query = "FROM Employe WHERE firstname = :FIRSTNAME and lastname = :LASTNAME"
         )
 })
 @Entity
@@ -87,7 +91,7 @@ public class Employe {
     @OneToMany(targetEntity = Position.class,
                 mappedBy = "employe",
                 cascade = CascadeType.ALL,
-                fetch = FetchType.EAGER)
+                fetch = FetchType.LAZY)
     public List<Position> getPosition() {
         return position;
     }
@@ -104,5 +108,4 @@ public class Employe {
     public void setRemuneration(List<Remuneration> remuneration) {
         this.remuneration = remuneration;
     }
-
 }

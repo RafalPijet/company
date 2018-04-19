@@ -5,8 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -18,13 +16,10 @@ public class RemunerationDto {
     private String description;
     private Double value;
 
-    public RemunerationDto(Date date, String name, String description, Double value) {
-        this.date = dateUtility(date);
+    public RemunerationDto(String date, String name, String description, Double value) {
+        this.date = date;
         this.name = name;
         this.description = description;
         this.value = value;
-    }
-    private String dateUtility(Date date) {
-        return date.toString().substring(0, 10);
     }
 }
